@@ -1,4 +1,25 @@
-#@title
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--seq_length", help="todo", default="100")
+parser.add_argument("--BATCH_SIZE", help="todo", default="64")
+parser.add_argument("--BUFFER_SIZE", help="todo", default="10000")
+parser.add_argument("--embedding_dim", help="todo", default="256")
+parser.add_argument("--rnn_units", help="todo", default="1024")
+parser.add_argument("--num_generate", help="todo", default="1000")
+parser.add_argument("--temperature", help="todo", default="0.1")
+parser.add_argument("--seed", help="todo", default="MNFPRA")
+args = parser.parse_args()
+
+assert args.seq_length > 0
+assert args.BATCH_SIZE > 32
+assert args.BUFFER_SIZE > 1000
+assert args.embedding_dim > 0
+assert args.rnn_units > 0
+assert args.num_generate > 0
+assert args.temperature > 0.0 and args.temperature <= 1.0
+assert len(args.seed) > 0
+
 def run_RNN(seq_length=100, BATCH_SIZE=64, BUFFER_SIZE=10000,
             embedding_dim=256, rnn_units=1024, num_generate=1000,
             temperature=0.1, seed=u"MNFPRA"):
@@ -126,3 +147,7 @@ def run_RNN(seq_length=100, BATCH_SIZE=64, BUFFER_SIZE=10000,
 
   print(generate_text(model, start_string=seed))
   # write to fasta file(s), one per sequence, set threshold values for quality control
+
+run_RNN(seq_length=int(args.seq_length), BATCH_SIZE=int(args.BATCH_SIZE), BUFFER_SIZE=int(args.BUFFER_SIZE),
+            embedding_dim=int(args.embedding_dim), rnn_units=int(args.rnn_units), num_generate=int(args.num_generate),
+            temperature=float(args.temperature), seed=args.seed)
